@@ -44,7 +44,7 @@ require('./config/passport')(passport)
 // save local variables
 app.use((req, res, next) => {
   res.locals.user = req.user
-  //res.locals.isAuthenticated = req.isAuthenticated()
+  res.locals.isAuthenticated = req.isAuthenticated()
   // add flash message variables
   //res.locals.success_msg = req.flash('success_msg')
   //res.locals.warning_msg = req.flash('warning_msg')
