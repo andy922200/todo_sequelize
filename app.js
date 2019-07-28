@@ -53,11 +53,12 @@ app.use((req, res, next) => {
 
 // express Listener
 app.listen(process.env.PORT || port, () => {
+  db.sequelize.sync()//資料庫同步
   console.log(`Express is listening on localhost ${port}`)
 })
 
 // load router settings
 app.use('/', require('./routes/home'))
-//app.use('/todos', require('./routes/todo'))
+app.use('/todos', require('./routes/todo'))
 app.use('/users', require('./routes/user'))
 //app.use('/auth', require('./routes/auths'))
