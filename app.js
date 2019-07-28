@@ -51,5 +51,5 @@ app.listen(process.env.PORT || port, () => {
 // load router settings
 app.use('/', require('./routes/home'))
 //app.use('/todos', require('./routes/todo'))
-//app.use('/users', require('./routes/user'))
-//app.use('/auth', require('./routes/auths')) 
+app.use('/users', require('./routes/user'))
+//app.use('/auth', require('./routes/auths'))
