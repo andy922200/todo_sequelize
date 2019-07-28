@@ -36,6 +36,11 @@ app.use(session({
   saveUninitialized: 'false'
 }))
 
+// passport initialize
+app.use(passport.initialize())
+app.use(passport.session())
+require('./config/passport')(passport)
+
 // save local variables
 app.use((req, res, next) => {
   res.locals.user = req.user
