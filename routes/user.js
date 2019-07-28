@@ -2,6 +2,11 @@
 const express = require('express')
 const router = express.Router()
 
+// load database
+const db = require('../models')
+const Todo = db.Todo
+const User = db.User
+
 // 登入頁面
 router.get('/login', (req, res) => {
   res.render('login')
@@ -16,7 +21,11 @@ router.get('/register', (req, res) => {
 })
 // 註冊檢查
 router.post('/register', (req, res) => {
-  res.send('register')
+  User.create({
+    name: req.body.name,
+    email: req.body.email,
+    password: req.body.password
+  }).then(user => res.redirect('/'))
 })
 // 登出
 router.get('/logout', (req, res) => {

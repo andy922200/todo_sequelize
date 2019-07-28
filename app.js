@@ -15,6 +15,9 @@ const port = 3000
 }*/
 
 // connect with database
+const db = require('./models')
+const Todo = db.Todo
+const User = db.User
 
 // template engine setting
 app.engine('handlebars', expressHandlebars({ defaultLayout: 'main' }))
