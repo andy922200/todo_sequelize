@@ -21,6 +21,7 @@ router.post('/login', (req, res, next) => {
     successRedirect: '/',
     failureRedirect: '/users/login',
   })(req, res, next)
+  req.flash('warning_msg', 'Email 或密碼錯誤，請重新輸入')
 })
 // 註冊頁面
 router.get('/register', (req, res) => {
