@@ -3,6 +3,7 @@ const express = require('express')
 const router = express.Router()
 const passport = require('passport')
 
+
 // load database
 const db = require('../models')
 const User = db.User
@@ -25,29 +26,41 @@ router.get('/register', (req, res) => {
 // 註冊檢查
 router.post('/register', (req, res) => {
   const { name, email, password, password2 } = req.body
-  User.findOne({ where: { email: email } }).then(user => {
-    if (user) {
-      console.log('User already exists')
-      res.render('register', { name, email, password, password2 })
-    } else {
-      const newUser = new User({
-        name,
-        email,
-        password,
-      })
-      newUser
-        .save()
-        .then(user => {
-          res.redirect('/')
+  let errors = []
+  if (!name || !email || !password || !password2) {
+    errors.push({ message: "請確認已填寫所有選項" })
+  }
+  if (password !== password2) {
+    errors.push({ message: "密碼輸入不一致" })
+  }
+  if (errors.length > 0) {
+    res.render('register', { name, email, errors })
+  } else {
+    User.findOne({ where: { email: email } }).then(user => {
+      if (user) {
+        console.log('User already exists')
+        errors.push({ message: "這個 Email 已被註冊" })
+        res.render('register', { name, email, password, password2, errors })
+      } else {
+        const newUser = new User({
+          name,
+          email,
+          password,
         })
-        .catch(err => console.log(err))
-    }
-  })
+        newUser
+          .save()
+          .then(user => {
+            res.redirect('/')
+          })
+          .catch(err => console.log(err))
+      }
+    })
+  }
 })
 // 登出
 router.get('/logout', (req, res) => {
   req.logout()
-  //req.flash('success_msg', '你已經成功登出')
+  req.flash('success_msg', '你已經成功登出')
   res.redirect('/users/login')
 })
 
